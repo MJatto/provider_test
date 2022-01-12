@@ -4,7 +4,46 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 /// Represenst a Cart Item. Has <int>`id`, <String>`name`, <int>`quantity`
-class CartItem {}
+class CartItem {
+  int cartItemID;
+  String cartItemName;
+  int cartItemQuantity;
+  
+  CartItem(int cartItemID, String cartItemName, int cartItemQuantity)
+  {
+      this.cartItemID = cartItemID;
+      this.cartItemNamem = cartItemName;
+      this.cartItemQuantity = cartItemQuantity;
+  }
+  
+  int getCartID()
+  {
+    return this.cartItemID;
+  }
+  String getCartName()
+  {
+    return this.cartItemName;
+  }
+  int getCartQuantity()
+  {
+    return this.cartItemQuantity;
+  }
+  
+  void setQuantity(int quantity)
+  {
+    this.cartItemQuantity = quantity;
+  }
+    
+  void setCardID(int itemID)
+  {
+    this.cartItemID = itemID;
+  }
+  
+  void setCartName(String newItemName)
+  {
+    this.cartItemName = newItemName;
+  }
+}
 
 /// Manages a cart. Implements ChangeNotifier
 class CartState with ChangeNotifier {
@@ -19,13 +58,27 @@ class CartState with ChangeNotifier {
   List<CartItem> get products => _products;
 
   /// Clears the cart. Notifies any consumers.
-  void clearCart() {}
+  void clearCart() {
+    _products.clear();
+    Notification("Cart has been cleared");
+  }
 
   /// Adds a new CartItem to the cart. Notifies any consumers.
-  void addToCart({required CartItem item}) {}
+  void addToCart({required CartItem item}) {
+    _products.add(item);
+    Notification("Item added into cart");
+  }
 
   /// Updates the quantity of the Cart item with this id. Notifies any consumers.
-  void updateQuantity({required int id, required int newQty}) {}
+  void updateQuantity({required int id, required int newQty}) {
+    for(int i =0; i<= _products.length; i++)
+    {
+      if(_products[i].getCartID() == id)
+      {
+        _products[i].setQuantity(newQty);
+      }
+    }
+  }
 }
 
 void main() {
@@ -65,14 +118,22 @@ class CartControls extends StatelessWidget {
     String nextCartItemName = 'A cart item';
     int nextCartItemQuantity = 1;
 
-    CartItem
-        item; // Actually use the CartItem constructor to assign id, name and quantity
-
+    CartItem item = new CartItem(nextCartItemID, nextCartItemName,nextCartItemQuantity) ; // Actually use the CartItem constructor to assign id, name and quantity
+    
     // TODO: Get the cart current state through Provider. Add this cart item to cart.
+      @override
+    return Consumer<CartState>(
+      builder: (BuildContext context, CartState cart, Widget? child) {
+        return Text("Total items: ${cart.totalCartItems}");
+        cart.addToCart(item);
+      },
+    );
   }
 
   /// Handle clear cart pressed. Should clear the cart
-  void _clearCartPressed(BuildContext context) {}
+  void _clearCartPressed(BuildContext context) {
+    
+  }
 
   @override
   Widget build(BuildContext context) {
