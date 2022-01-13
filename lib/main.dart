@@ -124,7 +124,6 @@ class CartControls extends StatelessWidget {
       @override
     return Consumer<CartState>(
       builder: (BuildContext context, CartState cart, Widget? child) {
-        return Text("Total items: ${cart.totalCartItems}");
         cart.addToCart(item);
       },
     );
@@ -132,7 +131,11 @@ class CartControls extends StatelessWidget {
 
   /// Handle clear cart pressed. Should clear the cart
   void _clearCartPressed(BuildContext context) {
-    
+    return Consumer<CartState>(
+      builder: (BuildContext context, CartState cart, Widget? child) {
+        cart.clearCart();
+      },
+    );
   }
 
   @override
@@ -163,7 +166,9 @@ class CartControls extends StatelessWidget {
 
 class ListOfCartItems extends StatelessWidget {
   /// Handles adding 1 to the current cart item quantity.
-  void _incrementQuantity(context, int id, int delta) {}
+  void _incrementQuantity(context, int id, int delta) {
+    
+  }
 
   /// Handles removing 1 to the current cart item quantity.
   /// Don't forget: we can't have negative numbers of an item in the cart
